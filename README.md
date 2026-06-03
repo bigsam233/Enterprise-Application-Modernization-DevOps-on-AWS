@@ -1,4 +1,4 @@
-# Enterprise Application Modernization DevOps on AWS
+<img width="1707" height="962" alt="17-migrated-instance-details" src="https://github.com/user-attachments/assets/7fc2a266-d184-46d2-a5fe-83eb5b19c5b8" /><img width="1707" height="881" alt="14-mgn-source-server-registered" src="https://github.com/user-attachments/assets/991e7655-001e-491c-87d1-d8f6a3174f07" /># Enterprise Application Modernization DevOps on AWS
 
 Enterprise application modernization and DevOps project on AWS featuring governance, hybrid migration, Aurora Global Database, Kubernetes (Amazon EKS), CI/CD automation, disaster recovery, and compliance monitoring.
 
@@ -153,7 +153,7 @@ This phase introduces cloud-native application deployment, CI/CD automation, and
 ---
 #  Implementation Phases  
 
-## Phase 1 – Foundation & Governance
+# Phase 1 – Foundation & Governance
 
 ## Overview
 
@@ -463,4 +463,447 @@ The Service Control Policy was attached to the Development Organizational Unit.
 
 This phase established the enterprise landing zone and governance foundation required to support secure application migration, disaster recovery, modernization, and DevOps automation in subsequent phases.  
 
-## Phase 2 – Foundation & Governance
+# Phase 2 – Hybrid Migration & Connectivity
+
+## Overview
+
+The second phase of the project focused on extending the AWS environment beyond cloud-native networking by simulating a traditional on-premises data center and establishing hybrid connectivity between the on-premises environment and AWS.
+
+The primary objectives were:
+
+- Simulate a legacy on-premises environment
+- Establish hybrid network connectivity using AWS Transit Gateway
+- Validate communication between on-premises and AWS workloads
+- Configure AWS Application Migration Service (MGN)
+- Replicate and migrate a legacy server into AWS
+- Validate successful application migration
+
+This phase demonstrates a common enterprise migration pattern where organizations move workloads from traditional data centers into AWS while maintaining connectivity during the migration process.
+
+---
+
+# Step 1: Create Production EC2 Instance
+
+## Objective
+
+Deploy an application server in the Production VPC to simulate an enterprise workload hosted in AWS.
+
+## Implementation
+
+An EC2 instance was launched within the Production VPC in the primary region (us-east-1).
+
+#### *Production ec2 instance created*
+
+<img width="1698" height="951" alt="01-production-ec2-instance-created" src="https://github.com/user-attachments/assets/f5dea4af-e375-4ba5-ab54-5abcd8ab1513" />
+
+
+## Outcome
+
+- Production workload deployed
+- AWS-hosted application environment established
+
+---
+
+# Step 2: Create Disaster Recovery EC2 Instance
+
+## Objective
+
+Deploy a secondary application server in the Disaster Recovery region.
+
+## Implementation
+
+An EC2 instance was provisioned within the Disaster Recovery VPC in us-west-2.
+
+#### *Disaster recovery ec2 instance created*
+
+<img width="1698" height="955" alt="02-disaster-recovery-ec2-instance-created png" src="https://github.com/user-attachments/assets/618f3bd6-d4fd-4511-8315-a022aacc95ad" />
+
+
+## Outcome
+
+- Disaster recovery compute environment established
+- Cross-region workload architecture implemented
+
+---
+
+# Step 3: Attach SSM Role to EC2 Instance
+
+## Objective
+
+Enable secure instance management without requiring SSH access.
+
+## Implementation
+
+An IAM role with AWS Systems Manager (SSM) permissions was attached to the EC2 instance.
+
+#### *SSM role attached to ec2*
+
+<img width="1707" height="471" alt="03-ssm-role-attached-to-ec2" src="https://github.com/user-attachments/assets/888836d8-62ab-4c7e-beb5-d2029c0c223a" />
+
+
+## Outcome
+
+- Secure instance administration enabled
+- Reduced dependency on SSH access
+
+---
+
+# Step 4: Validate Cross-Region Connectivity
+
+## Objective
+
+Verify communication between the Production and Disaster Recovery environments.
+
+## Implementation
+
+Connectivity tests were performed between EC2 instances hosted in us-east-1 and us-west-2.
+
+#### *cross region connectivity validated*
+
+<img width="1707" height="272" alt="04-cross-region-connectivity-validated" src="https://github.com/user-attachments/assets/95982059-0352-406a-b156-3c80988a2be8" />
+
+
+## Outcome
+
+- Successful communication confirmed
+- VPC Peering configuration validated
+
+---
+
+# Step 5: Create Simulated On-Premises VPC
+
+## Objective
+
+Simulate a traditional enterprise data center environment.
+
+## Implementation
+
+A dedicated VPC was created to represent the organization's on-premises network.
+
+#### *Onprem vpc created*
+
+<img width="1684" height="1057" alt="05-onprem-vpc-created" src="https://github.com/user-attachments/assets/745362bd-474e-43e4-9b8e-94f3a6cd4e0c" />
+
+
+## Outcome
+
+- Simulated corporate data center established
+- Foundation created for hybrid cloud connectivity
+
+---
+
+# Step 6: Create Legacy Application Server
+
+## Objective
+
+Deploy a legacy application server that will later be migrated to AWS.
+
+## Implementation
+
+An EC2 instance was launched within the simulated on-premises VPC to represent a legacy application workload.
+
+#### *Legacy server created*
+
+<img width="1684" height="1057" alt="06-legacy-server-created" src="https://github.com/user-attachments/assets/887ce62c-5103-4384-8144-51991ac7d9fd" />
+
+
+## Outcome
+
+- Legacy workload deployed
+- Migration source environment established
+
+---
+
+# Step 7: Validate Legacy Server
+
+## Objective
+
+Confirm that the simulated on-premises server is functioning correctly before migration.
+
+## Implementation
+
+Application and instance validation tests were performed.
+
+#### *Legacy server validation*
+
+<img width="1695" height="206" alt="07-legacy-server-validation" src="https://github.com/user-attachments/assets/bd63fa62-fe61-4f94-93b5-e3b44e935714" />
+
+
+## Outcome
+
+- Source workload verified
+- Migration readiness confirmed
+
+---
+
+# Step 8: Create On-Premises Transit Gateway Attachment
+
+## Objective
+
+Connect the simulated on-premises network to the AWS Transit Gateway.
+
+## Implementation
+
+A Transit Gateway attachment was created for the on-premises VPC.
+
+#### *Onprem transit gateway attachment created*
+
+<img width="1695" height="1056" alt="08-onprem-transit-gateway-attachment-created" src="https://github.com/user-attachments/assets/fe8f813d-80fc-4a7c-98fa-77ebf3e98933" />
+
+
+## Outcome
+
+- Hybrid connectivity path established
+- On-premises environment integrated into the AWS network architecture
+
+---
+
+# Step 9: Update Route Tables for Transit Gateway
+
+## Objective
+
+Enable traffic routing between AWS and the simulated on-premises network.
+
+## Implementation
+
+Route tables were updated to direct traffic through the Transit Gateway.
+
+#### *Route table updated for transit gateway*
+
+<img width="1695" height="757" alt="09-route-table-updated-for-transit-gateway" src="https://github.com/user-attachments/assets/e3a1d3ad-be8a-4d8d-b69b-05bd4ae5f24c" />
+
+
+## Outcome
+
+- Hybrid routing configured
+- Network traffic successfully directed through Transit Gateway
+
+---
+
+# Step 10: Validate Hybrid Connectivity
+
+## Objective
+
+Verify communication between AWS-hosted workloads and the simulated on-premises environment.
+
+## Implementation
+
+Connectivity tests were performed across the Transit Gateway architecture.
+
+#### *Hybrid connectivity validated*
+
+<img width="1695" height="321" alt="10-hybrid-connectivity-validated" src="https://github.com/user-attachments/assets/20cc6684-9e49-4741-b3a5-c01b3c291cd7" />
+
+
+## Outcome
+
+- Successful hybrid communication confirmed
+- Transit Gateway implementation validated
+
+---
+
+# Step 11: Configure MGN Replication Template
+
+## Objective
+
+Define replication settings for server migration.
+
+## Implementation
+
+AWS Application Migration Service (MGN) replication template settings were configured.
+
+#### *Mgn replication template configured*
+
+<img width="1701" height="956" alt="11-mgn-replication-template-configured" src="https://github.com/user-attachments/assets/eea13b7d-9fe1-4cc6-abe2-a7dd865d22ae" />
+
+
+## Outcome
+
+- Replication configuration completed
+- Migration framework prepared
+
+---
+
+# Step 12: Install AWS MGN Replication Agent
+
+## Objective
+
+Enable continuous replication from the source server.
+
+## Implementation
+
+The AWS MGN replication agent was installed on the legacy server.
+
+#### *MGN agent installed*
+
+<img width="1701" height="956" alt="12-mgn-agent-installed" src="https://github.com/user-attachments/assets/6e53b221-bacf-4d87-9a9e-525b8c97d04a" />
+
+
+## Outcome
+
+- Source server connected to MGN
+- Replication process enabled
+
+---
+
+# Step 13: Download MGN Replication Agent
+
+## Objective
+
+Obtain the migration agent package required for replication.
+
+## Implementation
+
+The AWS MGN replication agent installer was downloaded from the AWS console.
+
+#### *MGN agent installed*
+
+<img width="574" height="399" alt="13-mgn-agent-downloaded" src="https://github.com/user-attachments/assets/c2fc443c-9a13-4cd3-badf-7d995ec05db8" />
+
+
+## Outcome
+
+- Migration software acquired
+- Installation prerequisites completed
+
+---
+
+# Step 14: Register Source Server
+
+## Objective
+
+Register the legacy server with AWS Application Migration Service.
+
+## Implementation
+
+The source server was registered and discovered by MGN.
+
+#### *MGN source server registered*
+
+<img width="1707" height="881" alt="14-mgn-source-server-registered" src="https://github.com/user-attachments/assets/f9aed974-a340-4eb4-ae6d-b0ffd2ef92ac" />
+
+
+## Outcome
+
+- Source server recognized by AWS
+- Replication tracking initiated
+
+---
+
+# Step 15: Configure Launch Settings
+
+## Objective
+
+Define the target infrastructure configuration for migrated workloads.
+
+## Implementation
+
+MGN launch settings were configured to determine how migrated instances would be launched within AWS.
+
+#### *mgn launch settings configured*
+
+<img width="1707" height="881" alt="15-mgn-launch-settings-configured" src="https://github.com/user-attachments/assets/f4d916a0-be02-4019-bf39-07d542c65bcf" />
+
+
+## Outcome
+
+- Target deployment configuration established
+- Migration readiness completed
+
+---
+
+# Step 16: Launch Test Instance
+
+## Objective
+
+Validate migration readiness before cutover.
+
+## Implementation
+
+A test instance was launched from the replicated server data.
+
+#### *MGN test instance launched*
+
+<img width="1707" height="881" alt="16-mgn-test-instance-launched" src="https://github.com/user-attachments/assets/475d1ba0-c392-4d73-b097-394d04d761f0" />
+
+
+## Outcome
+
+- Migration testing completed
+- Replication integrity verified
+
+---
+
+# Step 17: Review Migrated Instance Details
+
+## Objective
+
+Inspect the migrated server deployed within AWS.
+
+## Implementation
+
+The migrated EC2 instance was reviewed to verify configuration, networking, and operational status.
+
+#### *Migrated instance details*
+
+<img width="1707" height="962" alt="17-migrated-instance-details" src="https://github.com/user-attachments/assets/0bff03fc-bfd1-44f1-8d48-59035cdf2998" />
+
+
+## Outcome
+
+- Successful migration confirmed
+- Target workload validated
+
+---
+
+# Step 18: Validate Migrated Application
+
+## Objective
+
+Verify application functionality after migration.
+
+## Implementation
+
+Post-migration application testing was performed against the migrated workload.
+
+#### *Migrated application validated*
+
+<img width="1707" height="222" alt="18-migrated-application-validated" src="https://github.com/user-attachments/assets/da25c26d-3790-48ac-8475-591552abe934" />
+
+
+## Outcome
+
+- Application functionality confirmed
+- Migration success validated
+- Legacy workload successfully modernized into AWS
+
+---
+
+# Phase 2 Summary
+
+## Key Deliverables
+
+- Simulated On-Premises Environment
+- Hybrid Connectivity Architecture
+- Transit Gateway Integration
+- Legacy Application Server
+- AWS Application Migration Service (MGN) Configuration
+- Server Replication and Migration
+- Application Validation
+
+## Skills Demonstrated
+
+- Hybrid Cloud Architecture
+- Network Routing
+- AWS Transit Gateway
+- Cross-Region Connectivity
+- Migration Planning
+- Server Replication
+- AWS Application Migration Service
+- Workload Validation
+
+## Business Value
+
+This phase demonstrated how enterprises can securely connect existing on-premises environments to AWS and migrate legacy workloads with minimal disruption. By implementing hybrid connectivity and AWS Application Migration Service, the organization established a repeatable migration strategy that supports future cloud adoption initiatives.  
+
+
