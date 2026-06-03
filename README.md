@@ -1,4 +1,4 @@
-<img width="1707" height="962" alt="17-migrated-instance-details" src="https://github.com/user-attachments/assets/7fc2a266-d184-46d2-a5fe-83eb5b19c5b8" /><img width="1707" height="881" alt="14-mgn-source-server-registered" src="https://github.com/user-attachments/assets/991e7655-001e-491c-87d1-d8f6a3174f07" /># Enterprise Application Modernization DevOps on AWS
+# Enterprise Application Modernization DevOps on AWS
 
 Enterprise application modernization and DevOps project on AWS featuring governance, hybrid migration, Aurora Global Database, Kubernetes (Amazon EKS), CI/CD automation, disaster recovery, and compliance monitoring.
 
@@ -905,5 +905,328 @@ Post-migration application testing was performed against the migrated workload.
 ## Business Value
 
 This phase demonstrated how enterprises can securely connect existing on-premises environments to AWS and migrate legacy workloads with minimal disruption. By implementing hybrid connectivity and AWS Application Migration Service, the organization established a repeatable migration strategy that supports future cloud adoption initiatives.  
+
+# Phase 3 – Application Tiers
+
+## Overview
+
+The third phase of the project focused on designing and deploying a highly available, scalable, and resilient application architecture capable of supporting enterprise workloads in production.
+
+The primary objectives were:
+
+- Deploy a scalable web application tier
+- Implement load balancing across multiple instances
+- Configure automatic scaling based on demand
+- Validate self-healing capabilities
+- Replace the legacy database architecture with Amazon Aurora
+- Implement cross-region database replication for disaster recovery
+
+This phase demonstrates how modern enterprises design application platforms that can automatically scale, recover from failures, and maintain business continuity across regions.
+
+---
+
+# Step 1: Create EC2 Launch Template
+
+## Objective
+
+Create a reusable configuration template for application instances that will be managed by Auto Scaling.
+
+## Implementation
+
+An EC2 Launch Template was created containing:
+
+- Amazon Machine Image (AMI)
+- Instance type
+- Security Group configuration
+- User Data scripts
+- Application startup configuration
+
+The Launch Template serves as the blueprint used by the Auto Scaling Group whenever a new instance is launched.
+
+#### *Launch template created*
+
+<img width="1576" height="1058" alt="01-launch-template-created" src="https://github.com/user-attachments/assets/bb76ffc8-7e2f-418a-a351-4a9d8c70dd8b" />
+
+
+## Outcome
+
+- Standardized EC2 deployment configuration established
+- Automated instance provisioning enabled
+- Foundation prepared for Auto Scaling
+
+---
+
+# Step 2: Create Target Group
+
+## Objective
+
+Create a Target Group to register and manage application instances behind the Application Load Balancer.
+
+## Implementation
+
+A Target Group was created to:
+
+- Receive traffic from the ALB
+- Route requests to healthy EC2 instances
+- Perform health checks against application endpoints
+
+#### *Target group created*
+
+<img width="1707" height="958" alt="02-target-group-created" src="https://github.com/user-attachments/assets/07becada-3996-496d-af0a-5339f5b175de" />
+
+
+## Outcome
+
+- Traffic routing layer established
+- Health monitoring configured
+- Load balancing integration prepared
+
+---
+
+# Step 3: Create Application Load Balancer Security Group
+
+## Objective
+
+Define network security controls for inbound traffic reaching the load balancer.
+
+## Implementation
+
+A dedicated security group was created for the Application Load Balancer.
+
+Configured rules included:
+
+- HTTP access
+- Application traffic management
+- Controlled communication with backend application servers
+
+#### *Alb security group created*
+
+<img width="1707" height="958" alt="03-alb-security-group-created" src="https://github.com/user-attachments/assets/224d4236-86d0-4523-8e89-4c6b23dfaa43" />
+
+
+## Outcome
+
+- Secure ingress traffic configuration established
+- Load balancer access controls implemented
+
+---
+
+# Step 4: Create Application Load Balancer (ALB)
+
+## Objective
+
+Provide a highly available entry point for application traffic.
+
+## Implementation
+
+An Application Load Balancer was deployed across multiple Availability Zones.
+
+The ALB was configured to:
+
+- Accept client requests
+- Distribute traffic across healthy instances
+- Perform health checks
+- Improve application availability
+
+#### *Application load balancer created*
+
+<img width="1707" height="958" alt="04-application-load-balancer-created" src="https://github.com/user-attachments/assets/722d5aa4-4498-4491-b11d-5dbe9dc01834" />
+
+
+## Outcome
+
+- Highly available application endpoint established
+- Traffic distribution enabled
+- Single point of entry created for users
+
+---
+
+# Step 5: Create Auto Scaling Group (ASG)
+
+## Objective
+
+Enable automatic provisioning and replacement of application servers.
+
+## Implementation
+
+An Auto Scaling Group was created using the Launch Template.
+
+The Auto Scaling Group was configured to:
+
+- Maintain desired capacity
+- Launch replacement instances when failures occur
+- Scale infrastructure based on demand
+
+#### *Auto scaling group created*
+
+<img width="1707" height="958" alt="05-auto-scaling-group-created" src="https://github.com/user-attachments/assets/6c733512-8b88-4a4e-9040-8e2a6db8251d" />
+
+
+## Outcome
+
+- Elastic compute platform established
+- Automated infrastructure management enabled
+- Improved application resilience
+
+---
+
+# Step 6: Validate Load Balancing
+
+## Objective
+
+Verify that traffic is successfully routed through the Application Load Balancer.
+
+## Implementation
+
+Application requests were sent through the ALB endpoint and successfully distributed to backend EC2 instances.
+
+#### *Load balancing validated*
+
+<img width="1271" height="332" alt="06-load-balancing-validated" src="https://github.com/user-attachments/assets/e8f64ef6-15e1-4248-97a0-007cc07bf7e2" />
+
+
+## Outcome
+
+- Load balancing functionality confirmed
+- Application accessibility verified
+- Traffic routing validated
+
+---
+
+# Step 7: Perform Auto Scaling Failure Test
+
+## Objective
+
+Test the resiliency of the application platform by simulating an instance failure.
+
+## Implementation
+
+One of the EC2 instances managed by the Auto Scaling Group was intentionally terminated.
+
+This simulated:
+
+- Infrastructure failure
+- Server outage
+- Unexpected instance loss
+
+#### *ASG instance termination test*
+
+<img width="1710" height="500" alt="07-asg-instance-termination-test" src="https://github.com/user-attachments/assets/78c90229-3252-49bb-ab12-f2fe2fd13f07" />
+
+
+## Outcome
+
+- Failure scenario successfully simulated
+- Auto Scaling recovery process triggered
+
+---
+
+# Step 8: Validate Auto Scaling Self-Healing
+
+## Objective
+
+Confirm that the Auto Scaling Group automatically replaces failed instances.
+
+## Implementation
+
+After the instance termination test, the Auto Scaling Group automatically launched a replacement instance using the Launch Template.
+
+#### *ASG self healing validated*
+
+<img width="1710" height="500" alt="08-asg-self-healing-validated" src="https://github.com/user-attachments/assets/331d7bbb-6dfd-45a3-9372-9b1e5fa78acc" />
+
+
+## Outcome
+
+- Self-healing infrastructure validated
+- Desired capacity automatically restored
+- High availability objectives achieved
+
+---
+
+# Step 9: Create Aurora Primary Cluster
+
+## Objective
+
+Replace traditional database infrastructure with a managed cloud-native database service.
+
+## Implementation
+
+An Amazon Aurora MySQL cluster was deployed in the primary AWS region (us-east-1).
+
+Aurora was selected because it provides:
+
+- High availability
+- Automated backups
+- Managed database operations
+- Improved scalability
+
+#### *Aurora primary cluster created png*
+
+<img width="1710" height="1018" alt="09-aurora-primary-cluster-created png" src="https://github.com/user-attachments/assets/9df860c0-02bf-460a-ba2e-d19722d6ec57" />
+
+
+## Outcome
+
+- Cloud-native database platform deployed
+- Primary database environment established
+
+---
+
+# Step 10: Create Cross-Region Aurora Reader
+
+## Objective
+
+Implement disaster recovery and cross-region database replication.
+
+## Implementation
+
+An Aurora Read Replica was created in the Disaster Recovery region (us-west-2).
+
+Replication was configured to continuously synchronize data from the primary Aurora cluster.
+
+This architecture forms the basis of an Aurora Global Database deployment.
+
+#### *Aurora cross-region reader created*
+
+<img width="1710" height="563" alt="10-aurora-cross-region-reader-created" src="https://github.com/user-attachments/assets/33310dd8-0ac4-44d1-a1d2-968d24311e84" />
+
+
+## Outcome
+
+- Cross-region replication established
+- Disaster recovery capability implemented
+- Reduced Recovery Point Objective (RPO)
+- Improved business continuity posture
+
+---
+
+# Phase 3 Summary
+
+## Key Deliverables
+
+- Launch Template
+- Target Group
+- Application Load Balancer
+- Auto Scaling Group
+- Automated Instance Recovery
+- Aurora Primary Cluster
+- Cross-Region Aurora Read Replica
+
+
+## Skills Demonstrated
+
+- High Availability Architecture
+- Elastic Load Balancing
+- Auto Scaling
+- Infrastructure Resilience
+- Self-Healing Systems
+- Database Modernization
+- Cross-Region Replication
+- Disaster Recovery Design
+
+## Business Value
+
+This phase transformed the application environment into a highly available and resilient platform capable of automatically recovering from failures and scaling to meet demand. By implementing Application Load Balancing, Auto Scaling, and Aurora Global Database, the organization significantly improved application reliability, fault tolerance, and disaster recovery readiness.  
 
 
