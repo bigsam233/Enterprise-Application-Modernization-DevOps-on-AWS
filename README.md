@@ -1230,3 +1230,450 @@ This architecture forms the basis of an Aurora Global Database deployment.
 This phase transformed the application environment into a highly available and resilient platform capable of automatically recovering from failures and scaling to meet demand. By implementing Application Load Balancing, Auto Scaling, and Aurora Global Database, the organization significantly improved application reliability, fault tolerance, and disaster recovery readiness.  
 
 
+# Phase 4 – Modernization, DevOps & Compliance
+
+## Overview
+
+The fourth and final phase of the project focused on modernizing application deployment through containerization, implementing Kubernetes orchestration, automating software delivery through CI/CD, and establishing continuous compliance monitoring.
+
+The primary objectives were:
+
+- Containerize the application using Docker
+- Store container images in Amazon ECR
+- Deploy workloads to Amazon EKS
+- Automate deployments using GitHub Actions
+- Implement continuous integration and delivery practices
+- Configure AWS Config for compliance monitoring
+- Demonstrate modern cloud-native application operations
+
+This phase represents the transition from traditional infrastructure deployment to modern DevOps and cloud-native application delivery practices.
+
+---
+
+# Part 1: Containerization & Kubernetes Modernization
+
+## Step 1: Build the Docker Image
+
+### Objective
+
+Containerize the application to create a portable and consistent deployment artifact.
+
+### Implementation
+
+A Docker image was built using the application source code and Dockerfile.
+
+The image packages:
+
+- Application code
+- Runtime dependencies
+- Configuration
+- Startup commands
+
+### Outcome
+
+- Application successfully containerized
+- Consistent deployment artifact created
+- Foundation established for Kubernetes deployment
+
+---
+
+## Step 2: Validate Docker Container
+
+### Objective
+
+Verify that the containerized application runs successfully.
+
+### Implementation
+
+The Docker container was launched locally and tested to confirm successful startup.
+
+### Outcome
+
+- Container startup validated
+- Application functionality verified
+- Deployment readiness confirmed
+
+---
+
+## Step 3: Verify Application Health Endpoint
+
+### Objective
+
+Confirm that the application is operational and responding to requests.
+
+### Implementation
+
+The application health endpoint was tested from within the running container.
+
+### Outcome
+
+- Application health confirmed
+- Service availability validated
+- Container readiness verified
+
+---
+
+## Step 4: Create Amazon ECR Repository
+
+### Objective
+
+Create a centralized repository for storing container images.
+
+### Implementation
+
+An Amazon Elastic Container Registry (ECR) repository was created to host application container images.
+
+### Outcome
+
+- Container registry established
+- Secure image storage configured
+- Kubernetes deployment target prepared
+
+---
+
+## Step 5: Push Docker Image to Amazon ECR
+
+### Objective
+
+Store the application image in a centralized repository accessible by Amazon EKS.
+
+### Implementation
+
+The Docker image was tagged and pushed to the Amazon ECR repository.
+
+### Outcome
+
+- Container image published
+- Versioned image repository established
+- Deployment artifact available for Kubernetes
+
+---
+
+## Step 6: Create Amazon EKS Cluster
+
+### Objective
+
+Provision a managed Kubernetes environment for application deployment.
+
+### Implementation
+
+An Amazon Elastic Kubernetes Service (EKS) cluster was deployed.
+
+The cluster provides:
+
+- Managed Kubernetes control plane
+- Container orchestration
+- Scalability
+- High availability
+
+### Outcome
+
+- Kubernetes environment established
+- Cloud-native platform provisioned
+- Modernization foundation completed
+
+---
+
+## Step 7: Deploy Application to Kubernetes
+
+### Objective
+
+Deploy the containerized application into the EKS cluster.
+
+### Implementation
+
+Kubernetes Deployment manifests were applied to create application pods.
+
+### Outcome
+
+- Application deployed successfully
+- Pods running inside Kubernetes
+- Declarative deployment model implemented
+
+---
+
+## Step 8: Create Kubernetes Service
+
+### Objective
+
+Expose the application running within the cluster.
+
+### Implementation
+
+A Kubernetes Service was created to provide network access to application pods.
+
+### Outcome
+
+- Service discovery enabled
+- Application traffic routing configured
+- Kubernetes networking established
+
+---
+
+## Step 9: Validate Application Through Load Balancer
+
+### Objective
+
+Verify external access to the Kubernetes-hosted application.
+
+### Implementation
+
+The application was accessed through the provisioned load balancer endpoint.
+
+### Outcome
+
+- External connectivity validated
+- Application accessibility confirmed
+- End-to-end deployment verified
+
+---
+
+## Step 10: Validate Kubernetes Pods
+
+### Objective
+
+Confirm healthy application operation within the cluster.
+
+### Implementation
+
+Kubernetes pod status was reviewed to verify successful deployment.
+
+### Outcome
+
+- Pods operational
+- Cluster health confirmed
+- Deployment success validated
+
+---
+
+## Containerization & EKS Evidence
+
+> Insert selected screenshots below.
+
+### Suggested Screenshots
+
+- Docker Image Build
+- ECR Repository Created
+- EKS Cluster Created
+- Kubernetes Deployment
+- Application Running on Load Balancer
+
+#### *Docker image built*
+<img width="784" height="379" alt="01-docker-image-built png" src="https://github.com/user-attachments/assets/f33896c9-ab25-4d63-88e2-0c3a25c20044" />
+
+#### *Eks cluster created*
+<img width="597" height="377" alt="06-eks-cluster-created" src="https://github.com/user-attachments/assets/84eef112-50d9-40fb-af63-c524f51aaad0" />
+
+#### *Application running on load balancer*
+<img width="1281" height="284" alt="09-application-running-on-load-balancer" src="https://github.com/user-attachments/assets/03e63f20-4291-46d0-890c-cbf66b083759" />
+
+
+---
+
+# Part 2: CI/CD Automation
+
+## Step 11: Create IAM User for GitHub Actions
+
+### Objective
+
+Enable GitHub Actions to interact securely with AWS resources.
+
+### Implementation
+
+A dedicated IAM user was created with permissions required for CI/CD operations.
+
+### Outcome
+
+- Secure AWS access established
+- CI/CD integration prepared
+
+---
+
+## Step 12: Configure GitHub Repository Secrets
+
+### Objective
+
+Store AWS credentials securely within GitHub.
+
+### Implementation
+
+AWS Access Key ID and Secret Access Key were added as encrypted GitHub repository secrets.
+
+### Outcome
+
+- Secure credential management implemented
+- GitHub Actions authentication configured
+
+---
+
+## Step 13: Execute GitHub Actions Pipeline
+
+### Objective
+
+Automate build and deployment operations.
+
+### Implementation
+
+A GitHub Actions workflow was executed to:
+
+1. Build the Docker image
+2. Authenticate with Amazon ECR
+3. Push the image to ECR
+4. Deploy updated workloads
+
+### Outcome
+
+- CI/CD pipeline operational
+- Automated deployment achieved
+- Manual deployment tasks eliminated
+
+---
+
+## Step 14: Verify Container Images After Pipeline Execution
+
+### Objective
+
+Validate successful artifact generation and deployment.
+
+### Implementation
+
+Amazon ECR was inspected after pipeline execution to confirm image publication.
+
+### Outcome
+
+- Pipeline execution verified
+- Container artifacts successfully published
+
+---
+
+## CI/CD Evidence
+
+> Insert selected screenshots below.
+
+### Suggested Screenshots
+
+- IAM User Creation
+- GitHub Secrets Configuration
+- Successful GitHub Actions Pipeline
+- ECR Images After Deployment
+
+#### *Github actions pipeline success*
+<img width="1592" height="838" alt="13-github-actions-pipeline-success" src="https://github.com/user-attachments/assets/381e49bb-2b20-4854-86c3-93fa85ae33fe" />
+
+#### *ECR images after cicd deployment*
+<img width="973" height="674" alt="14-ecr-images-after-cicd-deployment" src="https://github.com/user-attachments/assets/b52e7a1a-85c8-4651-ae11-ed6f5fb833de" />
+
+
+---
+
+# Part 3: Security & Compliance
+
+## Step 15: Enable AWS Config
+
+### Objective
+
+Implement continuous compliance monitoring.
+
+### Implementation
+
+AWS Config was enabled to record resource configurations and evaluate compliance against defined rules.
+
+AWS Config was configured with:
+
+- Configuration Recorder
+- Delivery Channel
+- Compliance Evaluation
+
+### Outcome
+
+- Compliance monitoring enabled
+- Configuration tracking activated
+- Governance visibility established
+
+---
+
+## Step 16: Configure AWS Config Compliance Rules
+
+### Objective
+
+Automate compliance validation.
+
+### Implementation
+
+AWS Managed Rules were configured to evaluate S3 security posture.
+
+Implemented rules included:
+
+- s3-bucket-public-read-prohibited
+- s3-bucket-public-write-prohibited
+
+### Outcome
+
+- Continuous compliance monitoring implemented
+- Security policy enforcement established
+- Governance controls validated
+
+---
+
+## Security & Compliance Evidence
+
+> Insert selected screenshots below.
+
+### Suggested Screenshots
+
+- AWS Config Enabled
+- AWS Config Rules Overview
+
+#### *AWS config enabled*
+<img width="1563" height="570" alt="15-aws-config-enabled" src="https://github.com/user-attachments/assets/4be35e70-129b-41a3-adee-daa2c90be3a1" />
+
+#### *aws config compliance rules overview*
+<img width="1563" height="985" alt="16-aws-config-compliance-rules-overview" src="https://github.com/user-attachments/assets/51d750cc-287d-4dec-b08e-59948e0ba114" />
+
+
+---
+
+# Phase 4 Summary
+
+## Key Deliverables
+
+- Dockerized Application
+- Amazon ECR Repository
+- Amazon EKS Cluster
+- Kubernetes Deployments and Services
+- GitHub Actions CI/CD Pipeline
+- Automated Image Deployment
+- AWS Config Compliance Monitoring
+- Continuous Governance Controls
+
+
+## Skills Demonstrated
+
+- Containerization
+- Kubernetes Administration
+- Amazon EKS Operations
+- CI/CD Automation
+- GitHub Actions
+- Container Registry Management
+- Cloud-Native Deployment
+- Compliance Monitoring
+- DevOps Practices
+
+## Business Value
+
+This phase modernized application delivery by adopting cloud-native technologies and DevOps practices. Through containerization, Kubernetes orchestration, automated CI/CD pipelines, and compliance monitoring, the organization improved deployment speed, operational consistency, scalability, and governance while reducing manual intervention.
+
+## Author
+
+Samuel Tettey-Fio
+
+DevOps | Cloud Engineering | AWS & Azure
+
+---
+
+## 📬 Contact  
+If you’re a recruiter or hiring manager looking for a Cloud/DevOps Engineer, feel free to connect via email at samuel.tfio@gmail.com
+
+## 🔗 Links
+
+[![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/samuel-tettey-fio/)
